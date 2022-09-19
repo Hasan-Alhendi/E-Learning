@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../model/classes/semester.dart';
-import '../../model/servises/semester_servise.dart';
+import '../../model/services/semester_servise.dart';
 
 class SemesterController extends GetxController {
   var isLoading = true.obs;
@@ -18,12 +18,7 @@ class SemesterController extends GetxController {
   void fetchSemesters() async {
     try {
       isLoading(true);
-      List<Semester> semesters = await SemesterService.fetchSemesters();
-
-      // ignore: unnecessary_null_comparison
-      if (semesters != null) {
-        semesterList = semesters;
-      }
+      semesterList = await SemesterService.fetchSemesters();
     } finally {
       isLoading(false);
     }

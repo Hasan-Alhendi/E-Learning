@@ -16,29 +16,34 @@ class SubjectView extends GetView<SubjectController> {
         return true;
       },
       child: Scaffold(
-        appBar: appBar("مواد الفصل"),
+        appBar: appBar(title: "مواد الفصل"),
         body: SafeArea(
           child: Obx(
-            () => ListView.builder(
-              itemCount: controller.subjectList.length,
-              itemBuilder: (context, index) {
-                return item(
-                    name: controller.subjectList[index].subjectName!,
-                    bottomLeft: Color(int.parse(
-                        controller.subjectList[index].bottomLeftColor!)),
-                    topRight: Color(int.parse(
-                        controller.subjectList[index].topRightColor!)),
-                    num: controller.subjectList[index].subjectPic!,
-                    path: "assets/sub",
-                    fontSize: 38,
-                    onTap: () {
-                      controller.subjectId.value =
-                          controller.subjectList[index].id!;
-                      Get.toNamed(Routes.unit,
-                          arguments: controller.subjectList[index].id!);
-                    });
-              },
-            ),
+            () {
+              if (controller.isLoading == true)
+                return Center(child: CircularProgressIndicator());
+              else
+                return ListView.builder(
+                  itemCount: controller.subjectList.length,
+                  itemBuilder: (context, index) {
+                    return item(
+                        name: controller.subjectList[index].subjectName!,
+                        bottomLeft: Color(int.parse(
+                            controller.subjectList[index].bottomLeftColor!)),
+                        topRight: Color(int.parse(
+                            controller.subjectList[index].topRightColor!)),
+                        num: controller.subjectList[index].subjectPic!,
+                        path: "assets/sub",
+                        fontSize: 28,
+                        onTap: () {
+                          controller.subjectId.value =
+                              controller.subjectList[index].id!;
+                          Get.toNamed(Routes.unit,
+                              arguments: controller.subjectList[index].id!);
+                        });
+                  },
+                );
+            },
           ),
         ),
       ),

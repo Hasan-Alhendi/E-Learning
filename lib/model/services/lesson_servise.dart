@@ -1,6 +1,7 @@
-import 'package:dio/dio.dart';
+import 'package:e_learning/model/services/http_client.dart';
 import 'package:get/get.dart';
-
+import '../../const.dart';
+import '../../control/controllers/base_controller.dart';
 import '../../control/controllers/unit_controller.dart';
 import '../classes/lesson.dart';
 
@@ -9,11 +10,11 @@ class LessonService {
     List<Lesson> loadedLessons = [];
     UnitController controller = Get.find();
     int unitId = controller.unitId.value;
-    final response =
-        await Dio().get('http://192.168.1.113:8000/api/lessons/show/$unitId');
-    //if(response.statusCode=200)
-
-    List jsonData = response.data;
+    final response = await HttpClient()
+        .get(Const.url, '/lessons/show/$unitId')
+        .catchError(BaseController.handleError);
+    if (response == null) return loadedLessons;
+    List jsonData = response;
 
     for (var item in jsonData) {
       loadedLessons.add(Lesson.fromJson(item));

@@ -1,6 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-
+import '../../const.dart';
+import '../../control/controllers/base_controller.dart';
+import 'http_client.dart';
 import '../../control/controllers/level_controller.dart';
 import '../classes/semester.dart';
 
@@ -9,13 +10,12 @@ class SemesterService {
     List<Semester> loadedSemesters = [];
     LevelController controller = Get.find();
     int levelId = controller.levelId.value;
-    //print(levelId);
 
-    final response =
-        await Dio().get('http://192.168.1.113:8000/api/chapter/show/$levelId');
-    //if(response.statusCode=200)
-
-    List jsonData = response.data;
+    final response = await HttpClient()
+        .get(Const.url, '/chapter/show/$levelId')
+        .catchError(BaseController.handleError);
+    if (response == null) return loadedSemesters;
+    List jsonData = response;
 
     for (var item in jsonData) {
       loadedSemesters.add(Semester.fromJson(item));

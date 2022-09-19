@@ -11,7 +11,7 @@ class ExamView extends GetView<TestController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar("الإختبار"),
+      appBar: appBar(title: "الإختبار"),
       body: WebView(
         initialUrl: Get.arguments,
         javascriptMode: JavascriptMode.unrestricted,
