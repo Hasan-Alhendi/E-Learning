@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../model/classes/subject.dart';
-import '../../model/servises/subject_servise.dart';
+import '../../model/services/subject_servise.dart';
 
 class SubjectController extends GetxController {
   var isLoading = true.obs;
@@ -17,12 +17,7 @@ class SubjectController extends GetxController {
   void fetchSubjects() async {
     try {
       isLoading(true);
-      List<Subject> subjects = await SubjectService.fetchSubjects();
-
-      // ignore: unnecessary_null_comparison
-      if (subjects != null) {
-        subjectList = subjects;
-      }
+      subjectList = await SubjectService.fetchSubjects();
     } finally {
       isLoading(false);
     }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../control/controllers/unit_controller.dart';
 import '../model/widget/app_bar.dart';
-import '../model/widget/item2.dart';
+import '../model/widget/item.dart';
 import '../routes.dart';
 
 class UnitView extends GetView<UnitController> {
@@ -17,33 +17,38 @@ class UnitView extends GetView<UnitController> {
         return true;
       },
       child: Scaffold(
-        appBar: appBar("الوحدات"),
+        appBar: appBar(title: "الوحدات"),
         body: Obx(
-          () => Directionality(
-            textDirection: TextDirection.rtl,
-            child: GridView.builder(
-              itemCount: controller.unitList.length,
-              itemBuilder: (context, index) => item2(
-                  name: controller.unitList[index].unitName!,
-                  //boxShadow: const Color(0xfffdab84),
-                  bottomLeft: Color(
-                      int.parse(controller.unitList[index].bottomLeftColor!)),
-                  topRight: Color(
-                      int.parse(controller.unitList[index].topRightColor!)),
-                  onTap: () {
-                    controller.unitId.value = controller.unitList[index].id!;
-                    Get.toNamed(Routes.lesson,
-                        arguments: controller.unitList[index].id!);
+          () {
+            if (controller.isLoading == true)
+              return Center(child: CircularProgressIndicator());
+            else
+              return Directionality(
+                textDirection: TextDirection.rtl,
+                child: GridView.builder(
+                  itemCount: controller.unitList.length,
+                  itemBuilder: (context, index) => item(
+                      name: controller.unitList[index].unitName!,
+                      bottomLeft: Color(int.parse(
+                          controller.unitList[index].bottomLeftColor!)),
+                      topRight: Color(
+                          int.parse(controller.unitList[index].topRightColor!)),
+                      fontSize: 23,
+                      onTap: () {
+                        controller.unitId.value =
+                            controller.unitList[index].id!;
+                        Get.toNamed(Routes.lesson,
+                            arguments: controller.unitList[index].id!);
 
-                    // viewBottomSheet(showVideo: () {}, exam: () {});
-                  }),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 200),
-            ),
-          ),
+                        // viewBottomSheet(showVideo: () {}, exam: () {});
+                      }),
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 200),
+                ),
+              );
+          },
         ),
       ),
     );
   }
-
-  }
+}

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../model/classes/test.dart';
-import '../../model/servises/test_servise.dart';
+import '../../model/services/test_servise.dart';
 
 class TestController extends GetxController {
   var isLoading = true.obs;
@@ -17,12 +17,7 @@ class TestController extends GetxController {
   void fetchTests() async {
     try {
       isLoading(true);
-      List<Test> tests = await TestService.fetchTests();
-
-      // ignore: unnecessary_null_comparison
-      if (tests != null) {
-        testList = tests;
-      }
+      testList = await TestService.fetchTests();
     } finally {
       isLoading(false);
     }

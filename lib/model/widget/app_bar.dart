@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-AppBar appBar(String title) {
+AppBar appBar({required String title}) {
   return AppBar(
     /*  leading: IconButton(
       icon: const Icon(Icons.arrow_back),
@@ -17,8 +17,6 @@ AppBar appBar(String title) {
       ),
     ),
     centerTitle: true,
-    // shadowColor: const Color.fromRGBO(255, 255, 255, 0),
-    elevation: 0,
-    // backgroundColor: Color.fromARGB(255, 3, 149, 247),
+    elevation: 2,
   );
 }

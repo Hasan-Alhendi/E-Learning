@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../model/classes/Unit.dart';
-import '../../model/servises/unit_servise.dart';
+import '../../model/services/unit_servise.dart';
 
 class UnitController extends GetxController {
   var isLoading = true.obs;
@@ -17,12 +17,7 @@ class UnitController extends GetxController {
   void fetchUnits() async {
     try {
       isLoading(true);
-      List<Unit> units = await UnitService.fetchUnits();
-
-      // ignore: unnecessary_null_comparison
-      if (units != null) {
-        unitList = units;
-      }
+      unitList = await UnitService.fetchUnits();
     } finally {
       isLoading(false);
     }

@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../control/controllers/test_controller.dart';
 import '../model/widget/app_bar.dart';
-import '../model/widget/item3.dart';
+import '../model/widget/item.dart';
 import '../routes.dart';
 
 class TestView extends GetView<TestController> {
@@ -17,33 +17,38 @@ class TestView extends GetView<TestController> {
         return true;
       },
       child: Scaffold(
-        appBar: appBar("إختبارات المادة"),
+        appBar: appBar(title: "إختبارات المادة"),
         body: SafeArea(
           child: Obx(
-            () => Directionality(
-              textDirection: TextDirection.rtl,
-              child: ListView.builder(
-                itemCount: controller.testList.length,
-                itemBuilder: (context, index) {
-                  return item3(
-                      name: controller.testList[index].testName!,
-                      fontSize: 23,
-                      bottomLeft: Color(int.parse(
-                          controller.testList[index].bottomLeftColor!)),
-                      topRight: Color(
-                          int.parse(controller.testList[index].topRightColor!)),
-                      //  num: controller.testList[index].subjectPic!,
-                      onTap: () {
-                        controller.testId.value =
-                            controller.testList[index].id!;
-                        Get.toNamed(Routes.exam,
-                            arguments: controller.testList[index].link!);
+            () {
+              if (controller.isLoading == true)
+                return Center(child: CircularProgressIndicator());
+              else
+                return Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: ListView.builder(
+                    itemCount: controller.testList.length,
+                    itemBuilder: (context, index) {
+                      return item(
+                          name: controller.testList[index].testName!,
+                          fontSize: 23,
+                          bottomLeft: Color(int.parse(
+                              controller.testList[index].bottomLeftColor!)),
+                          topRight: Color(int.parse(
+                              controller.testList[index].topRightColor!)),
+                          //  num: controller.testList[index].subjectPic!,
+                          onTap: () {
+                            controller.testId.value =
+                                controller.testList[index].id!;
+                            Get.toNamed(Routes.exam,
+                                arguments: controller.testList[index].link!);
 
-                        // viewBottomSheet(showVideo: () {}, exam: () {});
-                      });
-                },
-              ),
-            ),
+                            // viewBottomSheet(showVideo: () {}, exam: () {});
+                          });
+                    },
+                  ),
+                );
+            },
           ),
         ),
       ),
